@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NexTeen — Prototype</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, 244,226,76);§
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav a {
+  margin-left: 20px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+}
+
+/* SECTIONS */
+section {
+  padding: 80px 32px;
+}
+
+/* HERO */
+.hero {
+    position: absolute;
+  text-align: center;
+  color: white;
+  max-width: 900px;
+  margin: auto;
+  top: 300px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hero h1 {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+
+.hero h2 {
+  font-size: 22px;
+  color: #e0e0e0;
+  margin-bottom: 16px;
+}
+
+.hero p {
+  color: #d1d5db;
+  margin-bottom: 32px;
+}
+
+/* BUTTONS */
+.btn {
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 6px;
+}
+
+.btn.primary {
+  background: white;
+  color: #4f46e5;
+}
+
+.btn.outline {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+.grid-4 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+/* PROFILE */
+.ig-profile {
+  display: flex;
+  justify-content: center;
+}
+
+.ig-card {
+  background: white;
+  width: 380px;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.ig-header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.ig-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.ig-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.ig-stats strong {
+  display: block;
+}
+
+.ig-info {
+  margin-top: 14px;
+}
+
+.ig-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.ig-skills span {
+  background: #f1f1f1;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.ig-btn {
+  margin-top: 16px;
+  width: 100%;
+  padding: 12px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* FOOTER */
+footer {position: absolute;
+    top: 900px;
+    left: 750px;
+  text-align: center;
+  padding: 24px;
+  color: #e5e7eb;
+  font-size: 14px;
+}
+
+/* IMPORTANT — HIDDEN MUST BE LAST */
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>NexTeen</h1>
+  <nav>
+    <a onclick="showPage('home')">Басты бет</a>
+    <a onclick="showPage('jobs')">Іс іздеу</a>
+    <a onclick="showPage('profile')">Профиль</a>
+  </nav>
+</header>
+
+<section id="home" class="hero">
+  <h1>💵 Алғашқы ақшаңды өз қабілетіңмен тап 🚀</h1>
+  <h2>Жасөспірімдерге арналған қауіпсіз жұмыс платформасы</h2>
+  <p>Диплом емес — нақты дағды маңызды</p>
+  <button class="btn primary" onclick="showPage('jobs')">Жұмыс табу</button>
+  <button class="btn outline">Жұмыс ұсыну</button>
+</section>
+
+<section id="jobs" class="hidden">
+  <h2 style="color:white;">Категориялар</h2>
+  <div class="grid grid-4" style="margin-top:24px;">
+    <div class="card"><h3>Онлайн фриланс</h3><p>Canva, видео, мәтін</p></div>
+    <div class="card"><h3>Маңайдағы жұмыс</h3><p>Курьер, көмек</p></div>
+    <div class="card"><h3>Микро-тапсырмалар</h3><p>Жылдам</p></div>
+    <div class="card"><h3>Қауіпсіз</h3><p>Тексерілген</p></div>
+    <div class="card"> <h3>Шұғыл</h3> <p>жақын арада керек жұмыс</p> </div> <div class="card"> <h3>Әлеуметтік желі</h3> <p>Post, Reels, TikTok</p> </div> <div class="card"> <h3>Дизайн</h3> <p>Логотип, баннер, презентация</p> </div> <div class="card"> <h3>Видео өңдеу</h3> <p>Қысқа видео, монтаж</p> </div> <div class="card"> <h3>Фото өңдеу</h3> <p>Ретушь, өңдеу</p> </div> <div class="card"> <h3>Презентация</h3> <p>PowerPoint, Google Slides</p> </div> <div class="card"> <h3>Оқу көмегі</h3> <p>Үй тапсырмасы, түсіндіру</p> </div> <div class="card"> <h3>Оқу көмегі</h3> <p>Үй тапсырмасы, түсіндіру</p> </div> <div class="card"> <h3>Жануарлар күтімі</h3> <p>Серуендету, тамақтандыру</p> </div> <div class="card"> <h3>Промоутер</h3> <p>Жарнама, тарату</p> </div> <div class="card"> <h3>Іс-шара көмегі</h3> <p>Көмекші, ұйымдастыру</p> </div> <div class="card"> <h3>Код жазу</h3> <p>сайт, ойын, бот жасау</p> </div>
+  </div>
+</section>
+
+<section id="profile" class="hidden ig-profile">
+  <div class="ig-card">
+    <div class="ig-header">
+      <img src="img/IMG_8450 2.jpg" class="ig-avatar">
+      <div class="ig-stats">
+        <div><strong>12</strong>Jobs</div>
+        <div><strong>4.8</strong>Rating</div>
+        <div><strong>6</strong>Skills</div>
+      </div>
+    </div>
+
+    <div class="ig-info">
+      <strong>MUSA</strong>
+      <p>15 жаста · Teen freelancer</p>
+    </div>
+
+    <div class="ig-skills">
+      <span>Canva</span>
+      <span>Video</span>
+      <span>TikTok</span>
+      <span>Typing</span>
+    </div>
+
+    <button class="ig-btn">Өзгерту</button>
+  </div>
+</section>
+
+<footer>
+© 2026 NexTeen
+</footer>
+
+<script>
+function showPage(page) {
+  document.querySelectorAll("section").forEach(s => s.classList.add("hidden"));
+  document.getElementById(page).classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
+
