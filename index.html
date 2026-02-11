@@ -193,6 +193,20 @@ footer {position: absolute;
   display: none;
 }
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </head>
 
 <body>
@@ -256,8 +270,31 @@ footer {position: absolute;
 © 2026 NexTeen
 </footer>
 
+
+
+
+
+
+
+
+
+
+
 <script>
-  alert("Бұл прототип болып табылады. Барлық функциялар жұмыс істемейді және тек көрнекілік үшін жасалған.");
+  var data = confirm("Бұл прототип болып табылады. Барлық функциялар жұмыс істемейді және тек көрнекілік үшін жасалған.");
+  if (data) {
+    alert("Түсіністікпен қарағаныңызға рахмет! Бұл прототип тек дизайнды көрсету үшін жасалған және функционалды емес.");
+  }
+  if (!data) {
+    alert("Өтініш, сайтты қарап кетіңіз.");
+  }
+  var age = prompt("Неше жастасыз? Бұл сайт жасөспірімдерге арналған.");
+if (age > 18) {
+  alert("Кешіріңіз, бұл сайт жасөспірімдерге арналған.");
+  window.close();
+} else {
+  alert("Қош келдіңіз! Сайтты қарап шығуыңызға болады.");
+}
 function showPage(page) {
   document.querySelectorAll("section").forEach(s => s.classList.add("hidden"));
   document.getElementById(page).classList.remove("hidden");
