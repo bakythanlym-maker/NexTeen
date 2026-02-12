@@ -1,287 +1,191 @@
 <!DOCTYPE html>
-<html lang="kk">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>NexTeen — Prototype</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexTeen</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
-
 body {
+    margin: 0;
+    font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #4f46e5, #6366f1);
-  min-height: 100vh;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* HEADER */
-header {
-  background: rgba(255,255,255,0.9);
-  backdrop-filter: blur(8px);
-  padding: 16px 32px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Sections */
+.section {
+    display: none;
+    color: white;
+    flex: 1;
+    text-align: center;
+    padding: 40px 20px;
 }
 
-nav a {
-  margin-left: 20px;
-  cursor: pointer;
-  text-decoration: none;
-  color: #333;
-  font-weight: 600;
+.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-/* SECTIONS */
-section {
-  padding: 80px 32px;
+/* Search Input */
+.search-input {
+    width: 90%;
+    max-width: 400px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    font-size: 16px;
 }
 
-/* HERO */
-.hero {
-    position: absolute;
-  text-align: center;
-  color: white;
-  max-width: 900px;
-  margin: auto;
-  top: 300px;
-  left: 50%;
-  transform: translateX(-50%);
+/* Idea Box */
+.idea-box {
+    background: white;
+    color: black;
+    padding: 20px;
+    margin: 15px auto;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.idea-box h3 {
+    margin: 0 0 15px;
+}
+.idea-box button {
+    background: #38bdf8;
+    font-size: 16px;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    cursor: pointer;
+    border-radius: 25px;
 }
 
-.hero h1 {
-  font-size: 32px;
-  margin-bottom: 16px;
+/* Login Box */
+.login-box {
+    width: 90%;
+    max-width: 400px;
+    padding: 30px 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.login-box h2 {
+    margin-bottom: 25px;
+    color: #000;
+}
+.login-box input {
+    width: 90%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+.login-btn {
+    width: 90%;
+    padding: 12px;
+    background: #38bdf8;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
-.hero h2 {
-  font-size: 22px;
-  color: #e0e0e0;
-  margin-bottom: 16px;
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
 }
-
-.hero p {
-  color: #d1d5db;
-  margin-bottom: 32px;
+.bottom-nav button {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
 }
-
-/* BUTTONS */
-.btn {
-  padding: 12px 22px;
-  border-radius: 10px;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  margin: 6px;
+.bottom-nav img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
 }
-
-.btn.primary {
-  background: white;
-  color: #4f46e5;
+.bottom-nav span {
+    font-size: 12px;
+    color: #000;
+    margin-top: 3px;
 }
-
-.btn.outline {
-  background: transparent;
-  border: 2px solid white;
-  color: white;
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  gap: 20px;
-}
-
-.grid-4 {
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-/* CARD */
-.card {
-  background: white;
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-}
-
-/* PROFILE */
-.ig-profile {
-  display: flex;
-  justify-content: center;
-}
-
-.ig-card {
-  background: white;
-  width: 380px;
-  border-radius: 16px;
-  padding: 20px;
-}
-
-.ig-header {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-.ig-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-}
-
-.ig-stats {
-  display: flex;
-  gap: 16px;
-  font-size: 14px;
-  text-align: center;
-}
-
-.ig-stats strong {
-  display: block;
-}
-
-.ig-info {
-  margin-top: 14px;
-}
-
-.ig-skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.ig-skills span {
-  background: #f1f1f1;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 13px;
-}
-
-.ig-btn {
-  margin-top: 16px;
-  width: 100%;
-  padding: 12px;
-  background: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-}
-
-/* FOOTER */
-footer {position: absolute;
-    top: 900px;
-    left: 750px;
-  text-align: center;
-  padding: 24px;
-  color: #e5e7eb;
-  font-size: 14px;
-}
-
-/* IMPORTANT — HIDDEN MUST BE LAST */
-.hidden {
-  display: none;
+.bottom-nav button.active span,
+.bottom-nav button:hover span {
+    color: #38bdf8;
 }
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </head>
 
 <body>
 
-<header>
-  <h1>NexTeen</h1>
-  <nav>
-    <a onclick="showPage('home')">Басты бет</a>
-    <a onclick="showPage('jobs')">Іс іздеу</a>
-    <a onclick="showPage('profile')">Профиль</a>
-  </nav>
-</header>
+<!-- Home -->
+<div id="home" class="section active">
+    <h1>NexTeen 🚀</h1>
+    <p>The first safe freelance platform for teenagers</p>
 
-<section id="home" class="hero">
-  <h1>💵 Алғашқы ақшаңды өз қабілетіңмен тап 🚀</h1>
-  <h2>Жасөспірімдерге арналған қауіпсіз жұмыс платформасы</h2>
-  <p>Диплом емес — нақты дағды маңызды</p>
-  <button class="btn primary" onclick="showPage('jobs')">Жұмыс табу</button>
-  <button class="btn outline">Жұмыс ұсыну</button>
-</section>
-
-<section id="jobs" class="hidden">
-  <h2 style="color:white;">Категориялар</h2>
-  <div class="grid grid-4" style="margin-top:24px;">
-    <div class="card"><h3>Онлайн фриланс</h3><p>Canva, видео, мәтін</p></div>
-    <div class="card"><h3>Маңайдағы жұмыс</h3><p>Курьер, көмек</p></div>
-    <div class="card"><h3>Микро-тапсырмалар</h3><p>Жылдам</p></div>
-    <div class="card"><h3>Қауіпсіз</h3><p>Тексерілген</p></div>
-    <div class="card"> <h3>Шұғыл</h3> <p>жақын арада керек жұмыс</p> </div> <div class="card"> <h3>Әлеуметтік желі</h3> <p>Post, Reels, TikTok</p> </div> <div class="card"> <h3>Дизайн</h3> <p>Логотип, баннер, презентация</p> </div> <div class="card"> <h3>Видео өңдеу</h3> <p>Қысқа видео, монтаж</p> </div> <div class="card"> <h3>Фото өңдеу</h3> <p>Ретушь, өңдеу</p> </div> <div class="card"> <h3>Презентация</h3> <p>PowerPoint, Google Slides</p> </div> <div class="card"> <h3>Оқу көмегі</h3> <p>Үй тапсырмасы, түсіндіру</p> </div> <div class="card"> <h3>Оқу көмегі</h3> <p>Үй тапсырмасы, түсіндіру</p> </div> <div class="card"> <h3>Жануарлар күтімі</h3> <p>Серуендету, тамақтандыру</p> </div> <div class="card"> <h3>Промоутер</h3> <p>Жарнама, тарату</p> </div> <div class="card"> <h3>Іс-шара көмегі</h3> <p>Көмекші, ұйымдастыру</p> </div> <div class="card"> <h3>Код жазу</h3> <p>сайт, ойын, бот жасау</p> </div>
-  </div>
-</section>
-
-<section id="profile" class="hidden ig-profile">
-  <div class="ig-card">
-    <div class="ig-header">
-      <img src="img/IMG_8450 2.jpg" class="ig-avatar">
-      <div class="ig-stats">
-        <div><strong>12</strong>Jobs</div>
-        <div><strong>4.8</strong>Rating</div>
-        <div><strong>6</strong>Skills</div>
-      </div>
+    <div class="idea-box">
+      <h3>Get Started</h3>
+      <p>Click "Login" to enter your account</p>
+      <button onclick="showSection('login')">Login</button>
     </div>
+</div>
 
-    <div class="ig-info">
-      <strong>MUSA</strong>
-      <p>15 жаста · Teen freelancer</p>
+<!-- Search -->
+<div id="search" class="section">
+    <input type="text" placeholder="🔍 Find Jobs" class="search-input">
+    <p>Available freelance tasks will appear here.</p>
+</div>
+
+<!-- Login -->
+<div id="login" class="section">
+    <div class="login-box">
+        <h2>Login to NexTeen</h2>
+        <input type="text" placeholder="Email or Username">
+        <input type="password" placeholder="Password">
+        <button class="login-btn">Login</button>
     </div>
+</div>
 
-    <div class="ig-skills">
-      <span>Canva</span>
-      <span>Video</span>
-      <span>TikTok</span>
-      <span>Typing</span>
-    </div>
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+    <button onclick="showSection('home')" id="btn-home">
+        <img src="img/IMG_8449 2.jpg" alt="">
+        <span>Home</span>
+    </button>
+    <button onclick="showSection('search')" id="btn-search">
+        <img src="img/IMG_8451 2.jpg" alt="">
+        <span>Search</span>
+    </button>
+    <button onclick="showSection('login')" id="btn-login">
+        <img src="img/IMG_8450 2.jpg" alt="">
+        <span>Profile</span>
+    </button>
+</div>
 
-    <button class="ig-btn">Өзгерту</button>
-  </div>
-</section>
-
-<footer>
-© 2026 NexTeen
-</footer>
-
-
-
-
-
-
-
-
-
-
-
-<script>
-  var data = confirm("Бұл прототип болып табылады. Барлық функциялар жұмыс істемейді және тек көрнекілік үшін жасалған.");
+<script>var data = confirm("Бұл прототип болып табылады. Барлық функциялар жұмыс істемейді және тек көрнекілік үшін жасалған.");
   if (data) {
     alert("Түсіністікпен қарағаныңызға рахмет! Бұл прототип тек дизайнды көрсету үшін жасалған және функционалды емес.");
   }
@@ -294,14 +198,25 @@ if (age > 18) {
   alert("Кешіріңіз, бұл сайт жасөспірімдерге арналған.");
   window.close();
 } else {
-  alert("Қош келдіңіз! Сайтты қарап шығуыңызға болады.");
+  alert("Қош келдіңіз! Сайтқа кіруіңізге рұқсат✅.");
 }
-function showPage(page) {
-  document.querySelectorAll("section").forEach(s => s.classList.add("hidden"));
-  document.getElementById(page).classList.remove("hidden");
+function showSection(id) {
+    // Скрыть все секции
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+    // Показать выбранную
+    document.getElementById(id).classList.add('active');
+
+    // Подсветка кнопки
+    document.querySelectorAll('.bottom-nav button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    if(id === 'home') document.getElementById('btn-home').classList.add('active');
+    if(id === 'search') document.getElementById('btn-search').classList.add('active');
+    if(id === 'login') document.getElementById('btn-login').classList.add('active');
 }
 </script>
 
 </body>
 </html>
-
