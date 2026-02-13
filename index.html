@@ -9,7 +9,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  background: linear-gradient(135deg, #4f46e5, #4d4fa7);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -22,7 +22,10 @@ body {
     flex: 1;
     text-align: center;
     padding: 40px 20px;
+    transition: 0.3s ease;
 }
+
+
 
 .active {
     display: flex;
@@ -45,6 +48,7 @@ body {
 
 /* Idea Box */
 .idea-box {
+  margin-bottom: 100px;
     background: white;
     color: black;
     padding: 20px;
@@ -127,6 +131,15 @@ body {
     height: 28px;
     object-fit: contain;
 }
+.bottom-nav button.active img {
+    background: #a5a5a5;
+    padding: 2px;
+    border-radius: 90%;
+    transform: scale(1.4);
+    transition: 0.3s;
+}
+
+
 .bottom-nav span {
     font-size: 12px;
     color: #000;
@@ -134,8 +147,72 @@ body {
 }
 .bottom-nav button.active span,
 .bottom-nav button:hover span {
-    color: #38bdf8;
+    color: #505050;
 }
+
+.chat-container {
+    width: 100%;
+    max-width: 500px;
+    height: 80vh;
+    background: white;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f1f5f9;
+}
+
+.message {
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    max-width: 70%;
+    font-size: 14px;
+}
+
+.me {
+    background: #38bdf8;
+    color: white;
+    align-self: flex-end;
+}
+
+.other {
+    background: #e2e8f0;
+    color: black;
+    align-self: flex-start;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 10px;
+    background: white;
+    border-top: 1px solid #ddd;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.chat-input-area button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: none;
+    background: #38bdf8;
+    color: white;
+    cursor: pointer;
+}
+
 </style>
 </head>
 
@@ -158,6 +235,21 @@ body {
     <input type="text" placeholder="🔍 Find Jobs" class="search-input">
     <p>Available freelance tasks will appear here.</p>
 </div>
+<!-- Chat -->
+<div id="chat" class="section">
+    <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+            <div class="message other">Hello! 👋</div>
+            <div class="message me">Hi!</div>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
+
 
 <!-- Login -->
 <div id="login" class="section">
@@ -183,9 +275,14 @@ body {
         <img src="img/IMG_8450 2.jpg" alt="">
         <span>Profile</span>
     </button>
+    <button onclick="showSection('chat')" id="btn-chat">
+        <img src="img/chat.png" alt="">
+        <span>Chat</span>
+    </button>
 </div>
 
-<script>var data = confirm("Бұл прототип болып табылады. Барлық функциялар жұмыс істемейді және тек көрнекілік үшін жасалған.");
+<script>
+/*var data = confirm("Бұл прототип болып табылады. Барлық функциялар жұмыс істемейді және тек көрнекілік үшін жасалған.");
   if (data) {
     alert("Түсіністікпен қарағаныңызға рахмет! Бұл прототип тек дизайнды көрсету үшін жасалған және функционалды емес.");
   }
@@ -195,11 +292,11 @@ body {
   var name= prompt("Атыңыз кім?"); 
   var age = prompt(name + ", неше жастасыз? Бұл сайт жасөспірімдерге арналған.");
 if (age > 18) {
-  alert("Кешіріңіз, бұл сайт жасөспірімдерге арналған.");
-  window.close();
+  alert("Сіз ересек адам болсаңыз тек тапсырыс бере аласыз.");
+  open();
 } else {
   alert("Қош келдіңіз! Сайтқа кіруіңізге рұқсат✅.");
-}
+}*/
 function showSection(id) {
     // Скрыть все секции
     document.querySelectorAll('.section').forEach(section => {
@@ -216,6 +313,25 @@ function showSection(id) {
     if(id === 'search') document.getElementById('btn-search').classList.add('active');
     if(id === 'login') document.getElementById('btn-login').classList.add('active');
 }
+
+function sendMessage() {
+    if(id === 'chat') document.getElementById('btn-chat').classList.add('active');
+    const input = document.getElementById("chatInput");
+    const messageText = input.value.trim();
+    if(messageText === "") return;
+
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", "me");
+    messageDiv.textContent = messageText;
+
+    document.getElementById("chatMessages").appendChild(messageDiv);
+    input.value = "";
+
+    // Автоскролл вниз
+    document.getElementById("chatMessages").scrollTop =
+        document.getElementById("chatMessages").scrollHeight;
+}
+
 </script>
 
 </body>
