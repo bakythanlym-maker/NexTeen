@@ -19,17 +19,15 @@
             display: flex; flex-direction: column;
         }
 
-        
         #canvas-bg { position: fixed; top: 0; left: 0; z-index: -1; filter: blur(80px); opacity: 0.4; }
 
         .glass { background: var(--c); backdrop-filter: blur(25px); border: 1px solid var(--border); border-radius: 32px; }
 
-    
         header { 
             padding: 20px; display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; z-index: 1000;
         }
-        .status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e00; }
+        .status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e; }
 
         .btn {
             background: linear-gradient(135deg, var(--p), var(--s));
@@ -39,27 +37,23 @@
         }
         .btn:hover { transform: scale(1.02) translateY(-2px); box-shadow: 0 15px 40px rgba(124, 58, 237, 0.5); }
 
-        
         .container { flex: 1; padding: 0 20px 100px; max-width: 600px; margin: 0 auto; width: 100%; }
         .section { display: none; transform: translateY(20px); opacity: 0; }
         .active { display: block; animation: show 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
 
         @keyframes show { to { transform: translateY(0); opacity: 1; } }
 
-        
         .gig-card { padding: 25px; margin-bottom: 20px; position: relative; overflow: hidden; }
         .gig-card::before {
             content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
             background: linear-gradient(to bottom, var(--p), var(--s));
         }
 
-        
         .chat-area { height: 400px; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
         .bubble { padding: 12px 18px; border-radius: 20px; max-width: 80%; font-size: 14px; line-height: 1.5; }
         .me { align-self: flex-end; background: var(--p); border-bottom-right-radius: 4px; }
         .them { align-self: flex-start; background: rgba(255,255,255,0.1); border-bottom-left-radius: 4px; }
 
-        
         .nav {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 400px; height: 80px; padding: 0 10px;
@@ -72,7 +66,6 @@
             width: 5px; height: 5px; background: var(--s); border-radius: 50%;
         }
 
-        
         input, select, textarea {
             width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
             padding: 16px; border-radius: 18px; color: #fff; margin: 10px 0; font-size: 16px;
@@ -100,9 +93,9 @@
         <div class="glass" style="padding: 30px;">
             <input type="text" id="username" placeholder="Access Key (Username)">
             <input type="password" id="password" placeholder="Secret Key (Password)">
-            <button class="btn" style="width: 100%;" onclick="app.login()">LOG IN</button>
+            <button class="btn" style="width: 100%;" id="loginBtn">LOG IN</button>
             <p style="text-align: center; font-size: 14px; margin-top: 20px; color: #64748b;">
-                First time? <span onclick="app.show('signup')" style="color: var(--s); cursor: pointer;">Request ID</span>
+                First time? <span id="toSignup" style="color: var(--s); cursor: pointer;">Request ID</span>
             </p>
         </div>
     </div>
@@ -113,7 +106,7 @@
             <input type="text" id="newName" placeholder="Full Name">
             <input type="text" id="skill" placeholder="Master Skill (e.g. AI Prompting)">
             <textarea id="bio" placeholder="Your mission statement..."></textarea>
-            <button class="btn" style="width: 100%;" onclick="app.signup()">Deploy Identity</button>
+            <button class="btn" style="width: 100%;" id="signupBtn">Deploy Identity</button>
         </div>
     </div>
 
@@ -130,11 +123,11 @@
         </div>
         <div class="glass gig-card">
             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <span style="color: var(--p); font-weight: 800; font-size: 12px;">CREATIVE</span>
-                <span style="font-weight: 800;">$180.00</span>
+                <span style="color: var(--s); font-weight: 800; font-size: 12px;">DEVELOPMENT</span>
+                <span style="font-weight: 800;">$250.00</span>
             </div>
-            <h3>3D Avatar Modeling</h3>
-            <p style="color: #94a3b8; font-size: 14px;">Create a low-poly VRChat avatar based on a sketch.</p>
+            <h3>Smart Contract Audit</h3>
+            <p style="color: #94a3b8; font-size: 14px;">Review a Solidity contract for a new DeFi protocol.</p>
             <button class="btn" style="padding: 10px 20px; font-size: 12px; margin-top: 15px;">Accept Mission</button>
         </div>
     </div>
@@ -145,13 +138,13 @@
         </div>
         <div style="display: flex; gap: 10px; margin-top: 15px;">
             <input type="text" id="msgInput" placeholder="Transmit message..." style="margin:0">
-            <button class="btn" style="padding: 0 25px;" onclick="app.send()">></button>
+            <button class="btn" style="padding: 0 25px;" id="sendBtn">></button>
         </div>
     </div>
 
     <div id="profile" class="section">
         <div class="glass" style="padding: 30px; text-align: center;">
-            <div style="width: 120px; height: 120px; background: linear-gradient(var(--p), var(--s)); border-radius: 40px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 50px; box-shadow: 0 20px 50px rgba(124,58,237,0.4);">👤</div>
+            <div style="width: 120px; height: 120px; background: linear-gradient(var(--p), var(--s)); border-radius: 40px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 50px;">👤</div>
             <h1 id="profName" style="margin: 0;">User</h1>
             <p id="profSkill" style="color: var(--s); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 12px;"></p>
             <div style="display: flex; justify-content: space-around; margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px;">
@@ -164,53 +157,66 @@
 </div>
 
 <nav class="glass nav" id="navbar" style="display: none;">
-    <button class="nav-btn" onclick="app.show('feed')">🌐</button>
-    <button class="nav-btn active" onclick="app.show('profile')">👤</button>
-    <button class="nav-btn" onclick="app.show('chat')">💬</button>
-    <button class="nav-btn" onclick="app.logout()">🚪</button>
+    <button class="nav-btn" id="nav-feed">🌐</button>
+    <button class="nav-btn" id="nav-profile">👤</button>
+    <button class="nav-btn" id="nav-chat">💬</button>
+    <button class="nav-btn" id="nav-logout">🚪</button>
 </nav>
 
-<script>
-   
-    const canvas = document.getElementById('canvas-bg');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    let circles = [];
-    for(let i=0; i<5; i++){ circles.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*200+100, dx: (Math.random()-0.5)*2, dy: (Math.random()-0.5)*2, color: i%2==0?'#7c3aed':'#06b6d4'}); }
-    function animate() {
-        ctx.clearRect(0,0,canvas.width, canvas.height);
-        circles.forEach(c => {
-            ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI*2); ctx.fillStyle = c.color; ctx.fill();
-            c.x += c.dx; c.y += c.dy;
-            if(c.x<0 || c.x>canvas.width) c.dx*=-1; if(c.y<0 || c.y>canvas.height) c.dy*=-1;
-        });
-        requestAnimationFrame(animate);
-    }
-    animate();
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
 
-   
-    const app = {
+    const firebaseConfig = {
+        apiKey: "AIzaSyCmZUGTgPrmXFQbUUO1xXCqeD70P6Sy0Bk",
+        authDomain: "nexteen1.firebaseapp.com",
+        projectId: "nexteen1",
+        storageBucket: "nexteen1.firebasestorage.app",
+        messagingSenderId: "346706382944",
+        appId: "1:346706382944:web:d56b666e109f1695b63305",
+        measurementId: "G-1YXN6VXY68"
+    };
+
+    const firebaseApp = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(firebaseApp);
+
+    // --- APP ENGINE ---
+    const NexApp = {
         show: (id) => {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.getElementById('navbar').style.display = (id === 'auth' || id === 'signup') ? 'none' : 'flex';
             
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.onclick.toString().includes(id)));
+            // UI Navigation Update
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`nav-${id}`);
+            if(activeBtn) activeBtn.classList.add('active');
         },
+
         signup: () => {
-            const data = { name: document.getElementById('newName').value, skill: document.getElementById('skill').value };
+            const data = { 
+                name: document.getElementById('newName').value, 
+                skill: document.getElementById('skill').value 
+            };
+            if(!data.name) return alert("Enter Name");
             localStorage.setItem('nxt_infinity', JSON.stringify(data));
-            app.login(data.name);
+            NexApp.login(data.name);
         },
+
         login: (customName) => {
-            const name = customName || document.getElementById('username').value;
+            const nameInput = document.getElementById('username').value;
+            const name = customName || nameInput;
             const saved = JSON.parse(localStorage.getItem('nxt_infinity'));
+            
             if(saved && saved.name.toLowerCase() === name.toLowerCase()) {
                 document.getElementById('profName').innerText = saved.name;
                 document.getElementById('profSkill').innerText = saved.skill;
-                app.show('profile');
-            } else { alert("ID NOT FOUND"); }
+                NexApp.show('profile');
+            } else { 
+                alert("ID NOT FOUND. Please Request ID (Signup)."); 
+            }
         },
+
         send: () => {
             const input = document.getElementById('msgInput');
             if(!input.value) return;
@@ -218,12 +224,72 @@
             b.className = 'bubble me'; b.innerText = input.value;
             document.getElementById('chatbox').appendChild(b);
             input.value = '';
-            document.getElementById('chatbox').scrollTop = 9999;
+            const chatbox = document.getElementById('chatbox');
+            chatbox.scrollTop = chatbox.scrollHeight;
         },
-        logout: () => { if(confirm("Terminate Link?")) app.show('auth'); }
+
+        logout: () => { if(confirm("Terminate Link?")) NexApp.show('auth'); }
     };
 
-    window.onload = () => { if(localStorage.getItem('nxt_infinity')) app.login(); };
+    // --- EVENT LISTENERS ---
+    document.getElementById('loginBtn').onclick = () => NexApp.login();
+    document.getElementById('signupBtn').onclick = () => NexApp.signup();
+    document.getElementById('sendBtn').onclick = () => NexApp.send();
+    document.getElementById('toSignup').onclick = () => NexApp.show('signup');
+    
+    document.getElementById('nav-feed').onclick = () => NexApp.show('feed');
+    document.getElementById('nav-profile').onclick = () => NexApp.show('profile');
+    document.getElementById('nav-chat').onclick = () => NexApp.show('chat');
+    document.getElementById('nav-logout').onclick = () => NexApp.logout();
+
+    // Check Auto-login
+    window.addEventListener('load', () => {
+        if(localStorage.getItem('nxt_infinity')) {
+            const saved = JSON.parse(localStorage.getItem('nxt_infinity'));
+            NexApp.login(saved.name);
+        }
+    });
 </script>
+
+<script>
+    // --- BACKGROUND ANIMATION (CANVAS) ---
+    const canvas = document.getElementById('canvas-bg');
+    const ctx = canvas.getContext('2d');
+    
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.onresize = resize;
+    resize();
+
+    let circles = [];
+    for(let i=0; i<5; i++){ 
+        circles.push({
+            x: Math.random()*canvas.width, 
+            y: Math.random()*canvas.height, 
+            r: Math.random()*200+100, 
+            dx: (Math.random()-0.5)*2, 
+            dy: (Math.random()-0.5)*2, 
+            color: i%2==0 ? '#7c3aed' : '#06b6d4'
+        }); 
+    }
+
+    function animate() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        circles.forEach(c => {
+            ctx.beginPath(); 
+            ctx.arc(c.x, c.y, c.r, 0, Math.PI*2); 
+            ctx.fillStyle = c.color; 
+            ctx.fill();
+            c.x += c.dx; c.y += c.dy;
+            if(c.x<0 || c.x>canvas.width) c.dx*=-1; 
+            if(c.y<0 || c.y>canvas.height) c.dy*=-1;
+        });
+        requestAnimationFrame(animate);
+    }
+    animate();
+</script>
+
 </body>
 </html>
