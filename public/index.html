@@ -66,10 +66,11 @@
             width: 5px; height: 5px; background: var(--s); border-radius: 50%;
         }
 
-        input, select, textarea {
+        input, textarea {
             width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
             padding: 16px; border-radius: 18px; color: #fff; margin: 10px 0; font-size: 16px;
         }
+        ::placeholder { color: #64748b; }
     </style>
 </head>
 <body>
@@ -88,25 +89,35 @@
     <div id="auth" class="section active">
         <div style="text-align: center; padding: 40px 0;">
             <h1 style="font-size: 42px; margin: 0;">LOG IN.</h1>
-            <p style="color: #64748b;">future of teens.</p>
+            <p style="color: #64748b;">Access the elite network.</p>
         </div>
         <div class="glass" style="padding: 30px;">
-            <input type="text" id="username" placeholder="Access Key (Username)">
-            <input type="password" id="password" placeholder="Secret Key (Password)">
-            <button class="btn" style="width: 100%;" id="loginBtn">LOG IN</button>
+            <input type="email" id="loginEmail" placeholder="Email Address">
+            <input type="password" id="loginPass" placeholder="Password">
+            <button class="btn" style="width: 100%;" id="loginBtn">AUTHORIZE</button>
             <p style="text-align: center; font-size: 14px; margin-top: 20px; color: #64748b;">
-                First time? <span id="toSignup" style="color: var(--s); cursor: pointer;">Request ID</span>
+                No ID? <span id="toSignup" style="color: var(--s); cursor: pointer; font-weight: 800;">Register Identity</span>
             </p>
         </div>
     </div>
 
     <div id="signup" class="section">
+        <div style="text-align: center; padding: 20px 0;">
+            <h1 style="font-size: 32px; margin: 0;">REGISTER.</h1>
+        </div>
         <div class="glass" style="padding: 30px;">
-            <h2>Create Profile</h2>
             <input type="text" id="newName" placeholder="Full Name">
-            <input type="text" id="skill" placeholder="Master Skill (e.g. AI Prompting)">
-            <textarea id="bio" placeholder="Your mission statement..."></textarea>
-            <button class="btn" style="width: 100%;" id="signupBtn">Deploy Identity</button>
+            <input type="email" id="newEmail" placeholder="Email Address">
+            <input type="password" id="newPass" placeholder="Create Password (min. 6 chars)">
+            <div style="display: flex; gap: 10px;">
+                <input type="number" id="newAge" placeholder="Age" style="flex: 0.4;">
+                <input type="text" id="newSkill" placeholder="Major Skill" style="flex: 1;">
+            </div>
+            <textarea id="newBio" placeholder="Mission Statement (Bio)..." rows="3"></textarea>
+            <button class="btn" style="width: 100%;" id="signupBtn">DEPLOY IDENTITY</button>
+            <p style="text-align: center; font-size: 14px; margin-top: 20px; color: #64748b;">
+                Have account? <span id="toLogin" style="color: var(--s); cursor: pointer;">Back to Login</span>
+            </p>
         </div>
     </div>
 
@@ -121,20 +132,11 @@
             <p style="color: #94a3b8; font-size: 14px;">Review a Solidity contract for a new DeFi protocol.</p>
             <button class="btn" style="padding: 10px 20px; font-size: 12px; margin-top: 15px;">Accept Mission</button>
         </div>
-        <div class="glass gig-card">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <span style="color: var(--s); font-weight: 800; font-size: 12px;">DEVELOPMENT</span>
-                <span style="font-weight: 800;">$250.00</span>
-            </div>
-            <h3>Smart Contract Audit</h3>
-            <p style="color: #94a3b8; font-size: 14px;">Review a Solidity contract for a new DeFi protocol.</p>
-            <button class="btn" style="padding: 10px 20px; font-size: 12px; margin-top: 15px;">Accept Mission</button>
-        </div>
     </div>
 
     <div id="chat" class="section">
         <div class="glass chat-area" id="chatbox">
-            <div class="bubble them">System: Connection encrypted. Welcome back, Agent.</div>
+            <div class="bubble them">System: Connection encrypted. Welcome back.</div>
         </div>
         <div style="display: flex; gap: 10px; margin-top: 15px;">
             <input type="text" id="msgInput" placeholder="Transmit message..." style="margin:0">
@@ -144,13 +146,23 @@
 
     <div id="profile" class="section">
         <div class="glass" style="padding: 30px; text-align: center;">
-            <div style="width: 120px; height: 120px; background: linear-gradient(var(--p), var(--s)); border-radius: 40px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 50px;">👤</div>
+            <div style="position: relative; width: 120px; height: 120px; margin: 0 auto 20px;">
+                <div id="profImage" style="width: 100%; height: 100%; background: linear-gradient(var(--p), var(--s)); border-radius: 40px; display: flex; align-items: center; justify-content: center; font-size: 50px; overflow: hidden;">
+                    👤
+                </div>
+                <label for="imgUpload" style="position: absolute; bottom: -5px; right: -5px; background: var(--a); width: 35px; height: 35px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 3px solid var(--bg);">
+                    <span>📸</span>
+                    <input type="file" id="imgUpload" accept="image/*" style="display: none;">
+                </label>
+            </div>
             <h1 id="profName" style="margin: 0;">User</h1>
-            <p id="profSkill" style="color: var(--s); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 12px;"></p>
+            <p id="profSkill" style="color: var(--s); font-weight: 700; text-transform: uppercase; font-size: 12px; margin: 5px 0;"></p>
+            <p id="profAgeBio" style="color: #64748b; font-size: 14px;"></p>
+            
             <div style="display: flex; justify-content: space-around; margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px;">
-                <div><b style="font-size: 20px;">12</b><br><small style="color:#64748b">GIGS</small></div>
-                <div><b style="font-size: 20px;">4.9</b><br><small style="color:#64748b">RATING</small></div>
-                <div><b style="font-size: 20px;">$2.4k</b><br><small style="color:#64748b">EARNED</small></div>
+                <div><b style="font-size: 20px;">0</b><br><small style="color:#64748b">GIGS</small></div>
+                <div><b style="font-size: 20px;">5.0</b><br><small style="color:#64748b">RATING</small></div>
+                <div><b style="font-size: 20px;">$0</b><br><small style="color:#64748b">EARNED</small></div>
             </div>
         </div>
     </div>
@@ -164,8 +176,10 @@
 </nav>
 
 <script type="module">
+    // Firebase Imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyCmZUGTgPrmXFQbUUO1xXCqeD70P6Sy0Bk",
@@ -173,123 +187,122 @@
         projectId: "nexteen1",
         storageBucket: "nexteen1.firebasestorage.app",
         messagingSenderId: "346706382944",
-        appId: "1:346706382944:web:d56b666e109f1695b63305",
-        measurementId: "G-1YXN6VXY68"
+        appId: "1:346706382944:web:d56b666e109f1695b63305"
     };
 
-    const firebaseApp = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(firebaseApp);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    // --- APP ENGINE ---
     const NexApp = {
         show: (id) => {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.getElementById('navbar').style.display = (id === 'auth' || id === 'signup') ? 'none' : 'flex';
-            
-            // UI Navigation Update
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById(`nav-${id}`);
-            if(activeBtn) activeBtn.classList.add('active');
+            if(document.getElementById(`nav-${id}`)) document.getElementById(`nav-${id}`).classList.add('active');
         },
 
-        signup: () => {
-            const data = { 
-                name: document.getElementById('newName').value, 
-                skill: document.getElementById('skill').value 
-            };
-            if(!data.name) return alert("Enter Name");
-            localStorage.setItem('nxt_infinity', JSON.stringify(data));
-            NexApp.login(data.name);
+        // Регистрация в Firebase
+        signup: async () => {
+            const email = document.getElementById('newEmail').value;
+            const pass = document.getElementById('newPass').value;
+            const name = document.getElementById('newName').value;
+            const age = document.getElementById('newAge').value;
+            const skill = document.getElementById('newSkill').value;
+            const bio = document.getElementById('newBio').value;
+
+            if(!email || !pass || !name) return alert("Please fill Name, Email and Password!");
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+                const user = userCredential.user;
+
+                // Сохраняем доп. данные в базу Firestore
+                await setDoc(doc(db, "users", user.uid), {
+                    name, age, skill, bio, photo: null
+                });
+
+                alert("Identity Deployed!");
+            } catch (e) { alert(e.message); }
         },
 
-        login: (customName) => {
-            const nameInput = document.getElementById('username').value;
-            const name = customName || nameInput;
-            const saved = JSON.parse(localStorage.getItem('nxt_infinity'));
-            
-            if(saved && saved.name.toLowerCase() === name.toLowerCase()) {
-                document.getElementById('profName').innerText = saved.name;
-                document.getElementById('profSkill').innerText = saved.skill;
-                NexApp.show('profile');
-            } else { 
-                alert("ID NOT FOUND. Please Request ID (Signup)."); 
+        // Вход в Firebase
+        login: async () => {
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch (e) { alert("Access Denied: " + e.message); }
+        },
+
+        logout: () => signOut(auth),
+
+        // Загрузка данных профиля из базы
+        loadProfile: async (uid) => {
+            const docRef = doc(db, "users", uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById('profName').innerText = data.name;
+                document.getElementById('profSkill').innerText = data.skill;
+                document.getElementById('profAgeBio').innerText = `${data.age} y.o. • ${data.bio}`;
+                if(data.photo) document.getElementById('profImage').innerHTML = `<img src="${data.photo}" style="width:100%;height:100%;object-fit:cover;">`;
             }
         },
 
-        send: () => {
-            const input = document.getElementById('msgInput');
-            if(!input.value) return;
-            const b = document.createElement('div');
-            b.className = 'bubble me'; b.innerText = input.value;
-            document.getElementById('chatbox').appendChild(b);
-            input.value = '';
-            const chatbox = document.getElementById('chatbox');
-            chatbox.scrollTop = chatbox.scrollHeight;
-        },
-
-        logout: () => { if(confirm("Terminate Link?")) NexApp.show('auth'); }
+        // Работа с фото (сохраняем в Firestore)
+        handleImage: (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onloadend = async () => {
+                const base64 = reader.result;
+                const user = auth.currentUser;
+                if(user) {
+                    await setDoc(doc(db, "users", user.uid), { photo: base64 }, { merge: true });
+                    document.getElementById('profImage').innerHTML = `<img src="${base64}" style="width:100%;height:100%;object-fit:cover;">`;
+                }
+            };
+            if(file) reader.readAsDataURL(file);
+        }
     };
 
-    // --- EVENT LISTENERS ---
-    document.getElementById('loginBtn').onclick = () => NexApp.login();
-    document.getElementById('signupBtn').onclick = () => NexApp.signup();
-    document.getElementById('sendBtn').onclick = () => NexApp.send();
+    // Слушатель состояния входа
+    onAuthStateChanged(auth, (user) => {
+        if (user) { NexApp.loadProfile(user.uid); NexApp.show('profile'); } 
+        else { NexApp.show('auth'); }
+    });
+
+    // Кнопки
+    document.getElementById('signupBtn').onclick = NexApp.signup;
+    document.getElementById('loginBtn').onclick = NexApp.login;
     document.getElementById('toSignup').onclick = () => NexApp.show('signup');
-    
+    document.getElementById('toLogin').onclick = () => NexApp.show('auth');
+    document.getElementById('nav-logout').onclick = NexApp.logout;
+    document.getElementById('imgUpload').onchange = NexApp.handleImage;
     document.getElementById('nav-feed').onclick = () => NexApp.show('feed');
     document.getElementById('nav-profile').onclick = () => NexApp.show('profile');
     document.getElementById('nav-chat').onclick = () => NexApp.show('chat');
-    document.getElementById('nav-logout').onclick = () => NexApp.logout();
-
-    // Check Auto-login
-    window.addEventListener('load', () => {
-        if(localStorage.getItem('nxt_infinity')) {
-            const saved = JSON.parse(localStorage.getItem('nxt_infinity'));
-            NexApp.login(saved.name);
-        }
-    });
 </script>
 
 <script>
-    // --- BACKGROUND ANIMATION (CANVAS) ---
+    // Фон (Canvas Animation)
     const canvas = document.getElementById('canvas-bg');
     const ctx = canvas.getContext('2d');
-    
-    function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    window.onresize = resize;
-    resize();
-
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.onresize = resize; resize();
     let circles = [];
-    for(let i=0; i<5; i++){ 
-        circles.push({
-            x: Math.random()*canvas.width, 
-            y: Math.random()*canvas.height, 
-            r: Math.random()*200+100, 
-            dx: (Math.random()-0.5)*2, 
-            dy: (Math.random()-0.5)*2, 
-            color: i%2==0 ? '#7c3aed' : '#06b6d4'
-        }); 
-    }
-
+    for(let i=0; i<5; i++){ circles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*200+100, dx: (Math.random()-0.5)*2, dy: (Math.random()-0.5)*2, color: i%2==0 ? '#7c3aed' : '#06b6d4' }); }
     function animate() {
         ctx.clearRect(0,0,canvas.width, canvas.height);
         circles.forEach(c => {
-            ctx.beginPath(); 
-            ctx.arc(c.x, c.y, c.r, 0, Math.PI*2); 
-            ctx.fillStyle = c.color; 
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI*2); ctx.fillStyle = c.color; ctx.fill();
             c.x += c.dx; c.y += c.dy;
-            if(c.x<0 || c.x>canvas.width) c.dx*=-1; 
-            if(c.y<0 || c.y>canvas.height) c.dy*=-1;
+            if(c.x<0 || c.x>canvas.width) c.dx*=-1; if(c.y<0 || c.y>canvas.height) c.dy*=-1;
         });
         requestAnimationFrame(animate);
     }
     animate();
 </script>
-
 </body>
 </html>
