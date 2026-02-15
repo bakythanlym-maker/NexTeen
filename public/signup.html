@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexTeen | Тіркелу</title>
+    <style>
+        :root { --primary: #4f46e5; --bg: #0f172a; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0; background: linear-gradient(135deg, #1e293b 0%, var(--primary) 100%);
+            height: 100vh; display: flex; align-items: center; justify-content: center; color: white; overflow: hidden;
+        }
+        .logo { position: absolute; top: 30px; left: 30px; font-weight: 900; font-size: 24px; letter-spacing: 2px; }
+        .login-card {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); 
+            padding: 40px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 320px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        h1 { margin: 0 0 10px 0; font-size: 28px; }
+        p { color: #cbd5e1; margin-bottom: 30px; font-size: 14px; }
+        .input-group { margin-bottom: 20px; text-align: left; }
+        input {
+            width: 100%; padding: 14px; margin-top: 5px; border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.2);
+            color: white; box-sizing: border-box; outline: none;
+        }
+        input:focus { border-color: white; background: rgba(0, 0, 0, 0.4); }
+        .signup-btn {
+            width: 100%; padding: 14px; border: none; border-radius: 12px;
+            background: white; color: var(--primary); font-weight: bold;
+            font-size: 16px; cursor: pointer; transition: 0.3s;
+        }
+        .signup-btn:hover { transform: translateY(2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+    <div class="logo">NEXTEEN</div>
+    <div class="login-card">
+        <h1>ТІРКЕЛУ.</h1>
+        <p>Жаңа аккаунт жасау</p>
+        <div class="input-group"><input type="text" id="username" placeholder="Есіміңіз"></div>
+        <div class="input-group"><input type="email" id="email" placeholder="Email (электронды пошта)"></div>
+        <div class="input-group"><input type="password" id="password" placeholder="Құпия сөз"></div>
+        <button class="signup-btn" id="signupBtn">Тіркелу</button>
+        <p style="margin-top: 20px; font-size: 12px;">
+           Аккаунтыңыз бар ма? <a href="index.html" style="color: rgb(255, 255, 255); font-weight: bold; font-size: 14px; text-decoration: none;">Кіру</a>
+        </p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmZUGTgPrmXFQbUUO1xXCqeD70P6Sy0Bk",
+            authDomain: "nexteen1.firebaseapp.com",
+            projectId: "nexteen1",
+            storageBucket: "nexteen1.firebasestorage.app",
+            messagingSenderId: "346706382944",
+            appId: "1:346706382944:web:d56b666e109f1695b63305"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const signupBtn = document.getElementById('signupBtn');
+
+        signupBtn.addEventListener('click', async () => {
+            const name = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Қателерді тексеру (Қазақша)
+            if(!name || !email || !password) return alert("Барлық жолақтарды толтыру міндетті!");
+            if(password.length < 6) return alert("Құпия сөз кемінде 6 таңбадан тұруы керек!");
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                
+                // Пайдаланушы есімін жаңарту
+                await updateProfile(userCredential.user, { displayName: name });
+                
+                alert("Тіркелу сәтті аяқталды!");
+                window.location.href = "index.html"; // Логин бетіне бағыттау
+            } catch (error) {
+                // Firebase қателерін аудару (мысалы: пошта бұрын тіркелген болса)
+                alert("Қате: " + error.message);
+            }
+        });
+    </script>
+</body>
+</html>

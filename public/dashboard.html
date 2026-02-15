@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexTeen | Dashboard</title>
+    <style>
+        :root { --primary: #4f46e5; --bg: #0f172a; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0; background: #0f172a;
+            color: white; min-height: 100vh;
+        }
+        nav {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .logo { font-weight: 900; letter-spacing: 2px; color: var(--primary); }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .logout-btn {
+            background: #ef4444; color: white; border: none;
+            padding: 8px 16px; border-radius: 8px; cursor: pointer;
+            font-weight: bold; transition: 0.3s;
+        }
+        .logout-btn:hover { background: #dc2626; }
+        .main-content {
+            padding: 50px;
+            text-align: center;
+        }
+        .welcome-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 { font-size: 32px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">NEXTEEN</div>
+        <div class="user-info">
+            <span id="userDisplay">Жүктелуде...</span>
+            <button class="logout-btn" id="logoutBtn">Шығу</button>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="welcome-card">
+            <h1>Қош келдіңіз, <span id="userName" style="color: var(--primary);">Пайдаланушы</span>!</h1>
+            <p>Бұл сіздің NexTeen платформасындағы жеке кабинетіңіз.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // Your Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmZUGTgPrmXFQbUUO1xXCqeD70P6Sy0Bk",
+            authDomain: "nexteen1.firebaseapp.com",
+            projectId: "nexteen1",
+            storageBucket: "nexteen1.firebasestorage.app",
+            messagingSenderId: "346706382944",
+            appId: "1:346706382944:web:d56b666e109f1695b63305"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // UI Elements
+        const userDisplay = document.getElementById('userDisplay');
+        const userNameSpan = document.getElementById('userName');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // CHECK IF USER IS LOGGED IN
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                userDisplay.innerText = user.email;
+                userNameSpan.innerText = user.displayName || "Дос";
+            } else {
+                // No user is signed in, redirect to login
+                window.location.href = "index.html";
+            }
+        });
+
+        // LOGOUT LOGIC
+        logoutBtn.addEventListener('click', () => {
+            signOut(auth).then(() => {
+                window.location.href = "index.html";
+            }).catch((error) => {
+                alert("Қате орын алды!");
+            });
+        });
+    </script>
+</body>
+</html>
