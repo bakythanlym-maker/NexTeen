@@ -71,20 +71,20 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            // Қателерді тексеру (Қазақша)
+            
             if(!name || !email || !password) return alert("Барлық жолақтарды толтыру міндетті!");
             if(password.length < 6) return alert("Құпия сөз кемінде 6 таңбадан тұруы керек!");
 
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 
-                // Пайдаланушы есімін жаңарту
+                
                 await updateProfile(userCredential.user, { displayName: name });
                 
                 alert("Тіркелу сәтті аяқталды!");
-                window.location.href = "index.html"; // Логин бетіне бағыттау
+                window.location.href = "index.html"; 
             } catch (error) {
-                // Firebase қателерін аудару (мысалы: пошта бұрын тіркелген болса)
+                
                 alert("Қате: " + error.message);
             }
         });
