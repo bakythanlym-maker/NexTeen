@@ -17,13 +17,43 @@
             padding: 40px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.2);
             width: 320px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
+         .problem h1
+        {   position: fixed;
+            top: 45px;
+            right: 135px;    
+            font-size: 12px;
+            color: #cbd5e1;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .contact-link button {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: #ffffff;
+            color: var(--primary);
+            border: none;
+            padding: 13px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            z-index: 10;
+            font-size: 14px;
+        }
+        .contact-link button:hover {
+            background: #f1f5f9;
+            transform: scale3d(1.1,1.1,1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background: #acb3ba;
+        }
         h1 { margin: 0 0 10px 0; font-size: 28px; }
         p { color: #cbd5e1; margin-bottom: 30px; font-size: 14px; }
         .input-group { margin-bottom: 20px; text-align: left; }
         input {
             width: 100%; padding: 14px; margin-top: 5px; border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.2);
-            color: white; box-sizing: border-box; outline: none;
+            color: white; box-sizing: border-box; outline: none;font-weight: bold;
         }
         input:focus { border-color: white; background: rgba(0, 0, 0, 0.4); }
         .signup-btn {
@@ -36,15 +66,21 @@
 </head>
 <body>
     <div class="logo">NEXTEEN</div>
+   
+        
+    <a href="https://wa.me/77053950399" class="contact-link">
+        <button type="button">Contact</button>
+    </a>
+    
     <div class="login-card">
-        <h1>ТІРКЕЛУ.</h1>
-        <p>Жаңа аккаунт жасау</p>
-        <div class="input-group"><input type="text" id="username" placeholder="Есіміңіз"></div>
-        <div class="input-group"><input type="email" id="email" placeholder="Email (электронды пошта)"></div>
-        <div class="input-group"><input type="password" id="password" placeholder="Құпия сөз"></div>
-        <button class="signup-btn" id="signupBtn">Тіркелу</button>
+        <h1>SIGN UP.</h1>
+        <p>Create a new account</p>
+        <div class="input-group"><input type="text" id="username" placeholder="Your Name"></div>
+        <div class="input-group"><input type="email" id="email" placeholder="Email"></div>
+        <div class="input-group"><input type="password" id="password" placeholder="Password"></div>
+        <button class="signup-btn" id="signupBtn">Sign Up</button>
         <p style="margin-top: 20px; font-size: 12px;">
-           Аккаунтыңыз бар ма? <a href="index.html" style="color: rgb(255, 255, 255); font-weight: bold; font-size: 14px; text-decoration: none;">Кіру</a>
+           have an account? <a href="index.html" style="color: rgb(255, 255, 255); font-weight: bold; text-decoration: none;">LOG IN</a>
         </p>
     </div>
 
