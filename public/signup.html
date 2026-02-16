@@ -76,6 +76,7 @@
         <h1>SIGN UP.</h1>
         <p>Create a new account</p>
         <div class="input-group"><input type="text" id="username" placeholder="Your Name"></div>
+        <div class="input-group"><input type="number" id="age" placeholder="Age"></div>
         <div class="input-group"><input type="email" id="email" placeholder="Email"></div>
         <div class="input-group"><input type="password" id="password" placeholder="Password"></div>
         <button class="signup-btn" id="signupBtn">Sign Up</button>
@@ -104,18 +105,19 @@
 
         signupBtn.addEventListener('click', async () => {
             const name = document.getElementById('username').value;
+            const age = document.getElementById('age').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             
-            if(!name || !email || !password) return alert("Барлық жолақтарды толтыру міндетті!");
+            if(!name || !age || !email || !password) return alert("Барлық жолақтарды толтыру міндетті!");
             if(password.length < 6) return alert("Құпия сөз кемінде 6 таңбадан тұруы керек!");
 
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 
                 
-                await updateProfile(userCredential.user, { displayName: name });
+                await updateProfile(userCredential.user, { displayName: name, age: age });
                 
                 alert("Тіркелу сәтті аяқталды!");
                 window.location.href = "index.html"; 
