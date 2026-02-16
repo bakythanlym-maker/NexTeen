@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NexTeen | Кіру</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
             --primary: #4f46e5;
@@ -23,15 +24,6 @@
             overflow: hidden;
         }
 
-        .problem h1
-        {   position: fixed;
-            top: 45px;
-            right: 135px;    
-            font-size: 12px;
-            color: #cbd5e1;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
         .contact-link button {
             position: absolute;
             top: 30px;
@@ -47,11 +39,11 @@
             z-index: 10;
             font-size: 14px;
         }
+
         .contact-link button:hover {
-            background: #f1f5f9;
-            transform: scale3d(1.1,1.1,1);
+            transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            background: #acb3ba;
+            background: #f1f5f9;
         }
 
         .slogan {
@@ -106,6 +98,7 @@
             outline: none;
             transition: 0.3s;
             font-weight: bold;
+            font-size: 16px;
         }
 
         input:focus {
@@ -113,7 +106,6 @@
             background: rgba(0, 0, 0, 0.4);
         }
 
-        
         .login-btn {
             width: 100%;
             padding: 14px;
@@ -125,14 +117,17 @@
             font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
-            position: relative; 
-            top: 0; right: 0; 
+            margin-top: 10px;
         }
 
         .login-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            background: #f1f5f9;
+        }
+
+        .login-btn:disabled {
+            background: #64748b;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -147,19 +142,17 @@
 
     <div class="login-card">
         <h1>LOG IN.</h1>
-        <p>welcome to NexTeen!</p>
+        <p>Welcome to NexTeen!</p>
 
         <div class="input-group">
             <input type="email" id="email" placeholder="Email" required>
             <input type="password" id="password" placeholder="Password" required>
         </div>
 
-        
-
         <button type="button" class="login-btn" id="loginBtn">Login</button>
         
         <p style="margin-top: 20px; font-size: 12px;">
-            first in here? <a href="signup.html" style="color: white; font-weight: bold; text-decoration: none;">SIGN UP</a>
+            First in here? <a href="signup.html" style="color: white; font-weight: bold; text-decoration: none;">SIGN UP</a>
         </p>
     </div>
 
@@ -190,20 +183,55 @@
         const password = passwordInput.value;
 
         if(!email || !password) {
-            alert("Барлық жолақтарды толтырыңыз!");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Назар аударыңыз',
+                text: 'Барлық жолақтарды толтырыңыз!',
+                background: '#1e293b',
+                color: '#fff',
+                confirmButtonColor: '#4f46e5'
+            });
             return;
         }
 
+        loginBtn.disabled = true;
+        loginBtn.innerText = "Кіру...";
+
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            alert("Кіру сәтті аяқталды!");
-            window.location.href = "dashboard.html";
-        } catch (error) {
-            let message = "Қате орын алды";
-            if (error.code === 'auth/user-not-found') message = "Пайдаланушы табылмады";
-            if (error.code === 'auth/wrong-password') message = "Құпия сөз қате";
             
-            alert(message + ": " + error.message);
+            // Ортада шығатын сәтті хабарлама
+            await Swal.fire({
+                icon: 'success',
+                title: 'Сәтті аяқталды!',
+                text: 'NexTeen әлеміне қош келдіңіз',
+                background: '#1e293b',
+                color: '#fff',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                iconColor: '#4f46e5'
+            });
+
+            window.location.href = "dashboard.html";
+
+        } catch (error) {
+            loginBtn.disabled = false;
+            loginBtn.innerText = "Login";
+
+            let message = "Қате орын алды";
+            if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                message = "Пошта немесе құпия сөз қате";
+            }
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Қате',
+                text: message,
+                background: '#1e293b',
+                color: '#fff',
+                confirmButtonColor: '#ef4444'
+            });
         }
     });
 </script>
