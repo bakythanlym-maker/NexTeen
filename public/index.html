@@ -6,6 +6,7 @@
     <title>NexTeen | Кіру</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
         :root {
             --primary: #4f46e5;
             --bg: #0f172a;
@@ -58,6 +59,8 @@
         }
 
         .logo {
+            font-family: "Titan One", sans-serif;
+            font-weight: 100;
             position: absolute;
             top: 30px;
             left: 30px;
@@ -77,6 +80,9 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
             position: relative; 
         }
+        .login-card a:hover {
+        color: rgb(255, 255, 255); text-shadow: 0 0 5px rgb(255, 255, 255);
+        }
 
         h1 { margin: 0 0 10px 0; font-size: 28px; }
         p { color: #cbd5e1; margin-bottom: 30px; font-size: 14px; }
@@ -90,7 +96,7 @@
             width: 100%;
             padding: 14px;
             margin-top: 15px;
-            border-radius: 12px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             background: rgba(0, 0, 0, 0.2);
             color: white;
@@ -107,7 +113,7 @@
         }
 
         .login-btn {
-            width: 100%;
+            width: 60%;
             padding: 14px;
             border: none;
             border-radius: 12px;
@@ -141,18 +147,18 @@
     </a>
 
     <div class="login-card">
-        <h1>LOG IN.</h1>
+        <h1>Кіру.</h1>
         <p>Welcome to NexTeen!</p>
 
         <div class="input-group">
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
+            <input type="email" id="email" placeholder="example@email.com" required>
+            <input type="password" id="password" placeholder="құпия сөз" required>
         </div>
 
-        <button type="button" class="login-btn" id="loginBtn">Login</button>
+        <button type="button" class="login-btn" id="loginBtn">КІРУ</button>
         
         <p style="margin-top: 20px; font-size: 12px;">
-            First in here? <a href="signup.html" style="color: white; font-weight: bold; text-decoration: none;">SIGN UP</a>
+            Бірінші рет келдіңібе? <a href="signup.html" style="color: white; font-weight: bold; text-decoration: none;">ТІРКЕЛУ</a>
         </p>
     </div>
 
@@ -185,6 +191,7 @@
         if(!email || !password) {
             Swal.fire({
                 icon: 'warning',
+                iconColor: '#ef4444',
                 title: 'Назар аударыңыз',
                 text: 'Барлық жолақтарды толтырыңыз!',
                 background: '#1e293b',
@@ -203,7 +210,7 @@
             // Ортада шығатын сәтті хабарлама
             await Swal.fire({
                 icon: 'success',
-                title: 'Сәтті аяқталды!',
+                title: 'Сәтті аяқталды!' + ' ' + auth.currentUser.displayName,
                 text: 'NexTeen әлеміне қош келдіңіз',
                 background: '#1e293b',
                 color: '#fff',
@@ -219,14 +226,14 @@
             loginBtn.disabled = false;
             loginBtn.innerText = "Login";
 
-            let message = "Қате орын алды";
+            let message = "Табылмады";
             if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
                 message = "Пошта немесе құпия сөз қате";
             }
             
             Swal.fire({
                 icon: 'error',
-                title: 'Қате',
+                title: 'Пошта немесе құпия сөз қате',
                 text: message,
                 background: '#1e293b',
                 color: '#fff',

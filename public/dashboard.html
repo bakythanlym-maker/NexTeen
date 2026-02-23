@@ -3,137 +3,875 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexTeen App</title>
+    <title>NexTeen - For Teens, By Teens</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        :root { --primary: #4f46e5; --bg: #0f172a; --card: #1e293b; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: white; overflow-x: hidden; }
-        
-        .page { display: none; padding: 20px; padding-bottom: 100px; animation: fadeIn 0.3s; }
-        .page.active { display: block; }
-        
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* Басты беттегі есім стилі */
-        #userNameDisplay { color: #cbd5e1; font-size: 25px; font-weight: bold; margin-top: 10px; }
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --primary-light: #6366f1;
+            --success: #10b981;
+            --success-dark: #059669;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --bg-dark: #0f172a;
+            --bg-darker: #0a0f1f;
+            --card: #1e293b;
+            --card-hover: #334155;
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-        /* Төменгі навигация */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255, 255, 255, 0.1); z-index: 1000; }
-        .nav-item { color: #94a3b8; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; cursor: pointer; flex: 1; }
-        .nav-item.active { color: var(--primary); }
-        .nav-item i { font-size: 22px; }
+        html {
+            scroll-behavior: smooth;
+        }
 
-        /* Іздеу бөлімі */
-        .search-box { position: relative; width: 100%; }
-        .search-box input { width: 100%; padding: 14px 15px; border-radius: 12px; border: none; background: #e2e8f0; color: #000; box-sizing: border-box; font-size: 16px; outline: none; }
-        .suggestions { position: absolute; width: 100%; background: var(--card); border-radius: 0 0 10px 10px; z-index: 10; display: none; box-shadow: 0 10px 20px rgba(0,0,0,0.5); top: 50px; }
-        .suggestion-item { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
+        body {
+            
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-        /* Лидерборд */
-        .leaderboard-list { background: var(--card); border-radius: 15px; overflow: hidden; }
-        .rank-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .rank-num { width: 30px; font-weight: bold; color: var(--primary); }
+        .page {
+            display: none;
+            padding: 20px;
+            padding-bottom: 100px;
+            animation: fadeIn 0.4s ease-out;
+            min-height: 100vh;
+        }
 
-        /* ПРОФИЛЬ БЛОКТАРЫ */
-        .profile-user-card { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 25px; border-radius: 25px; display: flex; align-items: center; gap: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        .profile-avatar { width: 70px; height: 70px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 900; color: white; }
-        
-        .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .profile-block { background: var(--card); padding: 20px; border-radius: 20px; text-align: left; border: 1px solid rgba(255, 255, 255, 0.05); transition: 0.3s; }
-        .profile-block i { font-size: 24px; color: var(--primary); margin-bottom: 12px; display: block; }
-        .profile-block .block-title { font-size: 14px; font-weight: bold; display: block; }
-        .profile-block .block-desc { font-size: 11px; color: #94a3b8; margin-top: 4px; display: block; }
+        .page.active {
+            display: block;
+        }
 
-        .btn-settings { width: 100%; padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: white; font-weight: bold; text-align: left; margin-bottom: 10px; cursor: pointer; }
-        .btn-logout { width: 100%; padding: 15px; border-radius: 15px; border: none; background: rgba(239, 68, 68, 0.15); color: #ef4444; font-weight: bold; text-align: center; cursor: pointer; }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page h3 {
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 28px;
+            letter-spacing: -0.5px;
+        }
+
+        .page h2 {
+            font-size: 32px;
+            font-family: "Titan One", sans-serif;
+            font-weight: 100;
+            letter-spacing: -1px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--primary);
+            color: var(--text-primary);
+            width: 100%;
+            max-width: 150px;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn.btn-success {
+            background: var(--success);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn.btn-success:hover {
+            background: var(--success-dark);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 12px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Cards & Containers */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            background: var(--card-hover);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Feed */
+        .feed-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .post-card {
+            background: linear-gradient(135deg, var(--card) 0%, rgba(79, 70, 229, 0.05) 100%);
+            padding: 18px;
+            border-radius: 14px;
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .post-card:hover {
+            transform: translateX(4px);
+            border-color: rgba(79, 70, 229, 0.3);
+            background: linear-gradient(135deg, var(--card-hover) 0%, rgba(79, 70, 229, 0.08) 100%);
+        }
+
+        .post-card h4 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .post-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .post-card.team-type {
+            border-left-color: var(--success);
+            background: linear-gradient(135deg, var(--card) 0%, rgba(16, 185, 129, 0.05) 100%);
+        }
+
+        .post-card.team-type:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: linear-gradient(135deg, var(--card-hover) 0%, rgba(16, 185, 129, 0.08) 100%);
+        }
+
+        .post-footer {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .post-badge {
+            background: rgba(79, 70, 229, 0.2);
+            color: var(--primary-light);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .post-badge.team {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        /* Categories */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .cat-block {
+            background: linear-gradient(135deg, var(--card) 0%, rgba(255, 255, 255, 0.05) 100%);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cat-block:hover {
+            transform: translateY(-8px);
+            background: linear-gradient(135deg, var(--card-hover) 0%, rgba(255, 255, 255, 0.08) 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .cat-block i {
+            font-size: 28px;
+        }
+
+        .cat-block b {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(79, 70, 229, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .welcome-card h3 {
+            margin: 0 0 15px 0;
+            font-weight: 500;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .welcome-card p {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+        }
+
+        /* Profile */
+        .profile-user-card {
+            background: linear-gradient(135deg, var(--card) 0%, var(--card-hover) 100%);
+            padding: 28px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+            flex-shrink: 0;
+        }
+
+        .profile-info h4 {
+            margin: 0 0 5px 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .profile-info span {
+            display: block;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        @media (min-width: 640px) {
+            .profile-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .profile-block {
+            background: var(--card);
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .profile-block:hover {
+            border-color: rgba(79, 70, 229, 0.3);
+            background: var(--card-hover);
+        }
+
+        .profile-block i {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .profile-block span {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: block;
+        }
+
+        .btn-logout {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 25px;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        /* Search Input */
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 15px;
+            color: var(--text-muted);
+            pointer-events: none;
+            font-size: 16px;
+        }
+
+        .search-wrapper input {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text-primary);
+            outline: none;
+            transition: var(--transition);
+            font-size: 15px;
+        }
+
+        .search-wrapper input:focus {
+            border-color: var(--primary);
+            background: var(--card-hover);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            border-top: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            flex: 1;
+            transition: var(--transition);
+            padding: 8px 0;
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+
+        /* SweetAlert Customization */
+        .swal2-input,
+        .swal2-textarea {
+            border-radius: 12px !important;
+            background: var(--card) !important;
+            color: var(--text-primary) !important;
+            border: 1px solid var(--border) !important;
+            font-family: inherit !important;
+        }
+
+        .swal2-input::placeholder,
+        .swal2-textarea::placeholder {
+            color: var(--text-muted) !important;
+        }
+
+        .swal2-input:focus,
+        .swal2-textarea:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important;
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: var(--card);
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px dashed var(--border);
+            margin: 30px 0;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .empty-state h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+        }
+
+        .empty-state p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .page {
+                padding-bottom: 120px;
+            }
+
+            .page h3 {
+                font-size: 24px;
+            }
+        }
+
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, var(--card) 0%, var(--card-hover) 50%, var(--card) 100%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 12px;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card);
+            width: 100%;
+            max-width: 500px;
+            border-radius: 24px 24px 0 0;
+            padding: 30px 20px 20px;
+            animation: slideUp 0.3s ease-out;
+            border: 1px solid var(--border);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 24px;
+            padding: 0;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .customer-info {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .customer-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .customer-details h4 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .customer-details p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .customer-details .label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .post-details {
+            background: rgba(79, 70, 229, 0.1);
+            border: 1px solid rgba(79, 70, 229, 0.2);
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .post-details h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .post-details p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+        }
+
+        @media (max-width: 640px) {
+            .modal-content {
+                max-width: 100%;
+            }
+
+            .customer-info {
+                gap: 15px;
+            }
+
+            .customer-avatar {
+                width: 70px;
+                height: 70px;
+                font-size: 32px;
+            }
+        }
     </style>
 </head>
 <body>
-
+    <!-- Home Page -->
     <div id="home" class="page active">
-        <h2 style="color: var(--primary); letter-spacing: 2px;">NEXTEEN</h2>
-        <div style="background: var(--card); padding: 25px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.05);">
-            <h3 style="margin: 0; font-weight: 500;">Қайырлы күн! 👋</h3>
+        <h2>NEXTEEN</h2>
+        <div class="welcome-card">
+            <h3>Қайырлы күн! 👋</h3>
             <p id="userNameDisplay">Жүктелуде...</p>
         </div>
+        <div class="btn-container">
+            <button id="postButton" class="btn btn-full">
+                <i class="fas fa-plus"></i> Тапсырыс беру
+            </button>
+            <button id="teamButton" class="btn btn-success btn-full">
+                <i class="fas fa-users"></i> Команда іздеу
+            </button>
+        </div>
+        <div id="feedContainer" class="feed-container"></div>
     </div>
 
+    <!-- Search Page -->
     <div id="search" class="page">
-        <h3>Іздеу</h3>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Командалар, жобалар...">
-            <div id="suggestionBox" class="suggestions"></div>
+        <h3>Іздеу 🔎</h3>
+        <div class="search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="mainSearchInput" placeholder="Мамандық немесе жоба іздеу...">
         </div>
-        <div style="margin-top: 25px;">
-            <h4 style="color: #94a3b8;">Танымал категориялар</h4>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <span style="background: var(--primary); padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;">UI/UX Design</span>
-                <span style="background: var(--primary); padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;">Python</span>
-                <span style="background: var(--primary); padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold;">Marketing</span>
+        <h4 style="color: var(--text-secondary); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin: 30px 0 20px 0;">Категориялар</h4>
+        <div class="category-grid">
+            <div class="cat-block" onclick="setSearch('Дизайн')">
+                <i class="fas fa-palette" style="color: #ff6b9d;"></i>
+                <b>Дизайн</b>
+            </div>
+            <div class="cat-block" onclick="setSearch('IT')">
+                <i class="fas fa-code" style="color: #2ed573;"></i>
+                <b>IT / Код</b>
+            </div>
+            <div class="cat-block" onclick="setSearch('Маркетинг')">
+                <i class="fas fa-bullhorn" style="color: #ffa502;"></i>
+                <b>Маркетинг</b>
+            </div>
+            <div class="cat-block" onclick="setSearch('Видео')">
+                <i class="fas fa-video" style="color: #70a1ff;"></i>
+                <b>Видео</b>
+            </div>
+            <div class="cat-block" onclick="setSearch('SMM')">
+                <i class="fas fa-hashtag" style="color: #ff6b81;"></i>
+                <b>SMM</b>
+            </div>
+            <div class="cat-block" onclick="setSearch('Тілдер')">
+                <i class="fas fa-language" style="color: #ffd93d;"></i>
+                <b>Тілдер</b>
             </div>
         </div>
     </div>
 
+    <!-- Leaderboard Page -->
     <div id="leaderboard" class="page">
         <h3>Үздіктер рейтингі 🏆</h3>
-        <div class="leaderboard-list">
-            <div class="rank-item"><span class="rank-num">1</span> <span>Алихан М.</span> <span style="margin-left: auto; font-weight: bold;">245 xp</span></div>
-            <div class="rank-item"><span class="rank-num">2</span> <span>Аружан С.</span> <span style="margin-left: auto; font-weight: bold;">210 xp</span></div>
-            <div class="rank-item"><span class="rank-num">3</span> <span>Дамир Т.</span> <span style="margin-left: auto; font-weight: bold;">189 xp</span></div>
-            <div class="rank-item"><span class="rank-num">4</span> <span>Гүлнар Ә.</span> <span style="margin-left: auto; font-weight: bold;">175 xp</span></div>
-            <div class="rank-item"><span class="rank-num">5</span> <span>Ержан Б.</span> <span style="margin-left: auto; font-weight: bold;">160 xp</span></div>
+        <div class="empty-state">
+            <i class="fas fa-hourglass-half"></i>
+            <h4>Жақын арада шығады</h4>
+            <p>Рейтинг жүйесі әзірлену үстінде</p>
         </div>
     </div>
 
+    <!-- Profile Page -->
     <div id="profile" class="page">
+        <h3 style="margin-bottom: 20px;">Профиль</h3>
         <div class="profile-user-card">
             <div class="profile-avatar" id="avatarLetter">N</div>
-            <div>
-                <b id="profileName" style="font-size: 20px; display: block;">Пайдаланушы</b>
-                <span style="font-size: 12px; color: #94a3b8;">To Teens By Teens</span>
-                <b id="age" style="font-size: 12px; display: block; margin-top: 5px;">age</b>
+            <div class="profile-info">
+                <h4 id="profileName">Пайдаланушы</h4>
+                <span>To Teens By Teens</span>
+                <span>жас: <span id="age">--</span></span>
             </div>
         </div>
-
         <div class="profile-grid">
             <div class="profile-block">
                 <i class="fas fa-coins"></i>
-                <span class="block-title">450 NexCoin</span>
-                <span class="block-desc">Сенің балансың</span>
+                <span>0 NexCoin</span>
             </div>
             <div class="profile-block">
                 <i class="fas fa-rocket"></i>
-                <span class="block-title">12 Жоба</span>
-                <span class="block-desc">Аяқталған жұмыс</span>
+                <span>0 Жоба</span>
             </div>
             <div class="profile-block">
                 <i class="fas fa-star"></i>
-                <span class="block-title">Рейтинг</span>
-                <span class="block-desc">5.0 Жұлдыз</span>
+                <span>Рейтинг</span>
             </div>
             <div class="profile-block">
                 <i class="fas fa-user-group"></i>
-                <span class="block-title">Команда</span>
-                <span class="block-desc">3 белсенді топ</span>
+                <span>Команда</span>
             </div>
         </div>
+        <button class="btn-logout" id="logoutBtn">Шығу</button>
+    </div>
 
-        <div style="margin-top: 25px;">
-            <button class="btn-settings"><i class="fas fa-cog" style="margin-right: 10px; color: var(--primary);"></i> Баптаулар</button>
-            <button class="btn-logout" id="logoutBtn">Шығу</button>
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="showPage('home', this)">
+            <i class="fas fa-home"></i>
+            <span>Басты</span>
+        </div>
+        <div class="nav-item" onclick="showPage('search', this)">
+            <i class="fas fa-search"></i>
+            <span>Іздеу</span>
+        </div>
+        <div class="nav-item" onclick="showPage('leaderboard', this)">
+            <i class="fas fa-trophy"></i>
+            <span>Рейтинг</span>
+        </div>
+        <div class="nav-item" onclick="showPage('profile', this)">
+            <i class="fas fa-user-circle"></i>
+            <span>Профиль</span>
         </div>
     </div>
 
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="showPage('home', this)"><i class="fas fa-home"></i><span>Басты</span></div>
-        <div class="nav-item" onclick="showPage('search', this)"><i class="fas fa-search"></i><span>Іздеу</span></div>
-        <div class="nav-item" onclick="showPage('leaderboard', this)"><i class="fas fa-trophy"></i><span>Рейтинг</span></div>
-        <div class="nav-item" onclick="showPage('profile', this)"><i class="fas fa-user-circle"></i><span>Профиль</span></div>
+    <!-- Customer Info Modal -->
+    <div id="customerModal" class="modal" onclick="closeCustomerModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Тапсырыс беруші</h3>
+                <button class="modal-close" onclick="closeCustomerModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="customer-info">
+                <div class="customer-avatar" id="modalAvatarLetter">A</div>
+                <div class="customer-details">
+                    <h4 id="modalCustomerName">Атыңыз</h4>
+                    <p id="modalCustomerRole">Мамандығы</p>
+                    <span class="label">Жүргізген жобалар</span>
+                    <p id="modalProjectCount">0</p>
+                    <span class="label">Рейтингі</span>
+                    <p id="modalRating">★★★★★</p>
+                </div>
+            </div>
+
+            <div class="post-details">
+                <h4>📋 Тапсырмасы</h4>
+                <p id="modalPostTitle">Тапсырманың атауы</p>
+                <h4 style="margin-top: 15px;">📝 Сипаттамасы</h4>
+                <p id="modalPostDesc">Толық сипаттама</p>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-full">
+                    <i class="fas fa-heart"></i> Ұнайды
+                </button>
+                <button class="btn btn-success btn-full">
+                    <i class="fas fa-check"></i> Ұсыныс жіберу
+                </button>
+            </div>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCmZUGTgPrmXFQbUUO1xXCqeD70P6Sy0Bk",
@@ -146,56 +884,204 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        // PAGE NAVIGATION
+        // Page Navigation
         window.showPage = function(pageId, element) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            element.classList.add('active');
+            if (element) element.classList.add('active');
         };
 
-        // AUTH STATE
+        // Authentication
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const name = user.displayName || user.email.split('@')[0];
                 document.getElementById('userNameDisplay').innerText = name;
                 document.getElementById('profileName').innerText = name;
-                document.getElementById('age').innerText = user.age ? `Age: ${user.age}` : '';
                 document.getElementById('avatarLetter').innerText = name.charAt(0).toUpperCase();
+                loadFeed();
             } else {
                 window.location.href = "index.html";
             }
         });
 
-        // LOGOUT
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            signOut(auth).then(() => window.location.href = "index.html");
+        // Save Post to Firebase
+        const savePost = async (title, description, type) => {
+            try {
+                await addDoc(collection(db, "feed"), {
+                    title: title,
+                    desc: description,
+                    type: type,
+                    author: auth.currentUser.displayName || "User",
+                    createdAt: serverTimestamp()
+                });
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Сәтті!',
+                    text: 'Өз пікіріңіз жарияланды',
+                    background: '#1e293b',
+                    color: '#ffffff',
+                    confirmButtonColor: '#4f46e5'
+                });
+            } catch (error) {
+                console.error("Error saving post:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Қате!',
+                    text: 'Пікіријіңізді сақтау сәтсіз болды',
+                    background: '#1e293b',
+                    color: '#ffffff'
+                });
+            }
+        };
+
+        // Post Button
+        document.getElementById('postButton').addEventListener('click', async () => {
+            const { value: form } = await Swal.fire({
+                title: 'Тапсырыс қою',
+                background: '#1e293b',
+                color: '#ffffff',
+                html: `
+                    <input id="postTitle" class="swal2-input" placeholder="Атауы (мағ. Веб-сайт дизайны)">
+                    <textarea id="postDesc" class="swal2-textarea" placeholder="Толық сипаттама..."></textarea>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Жариялау',
+                cancelButtonText: 'Бас тарту',
+                confirmButtonColor: '#4f46e5',
+                preConfirm: () => {
+                    const title = document.getElementById('postTitle').value;
+                    const desc = document.getElementById('postDesc').value;
+                    if (!title || !desc) {
+                        Swal.showValidationMessage('Барлық өрістерді толтырыңыз');
+                        return false;
+                    }
+                    return { title, desc };
+                }
+            });
+            if (form) savePost(form.title, form.desc, 'post');
         });
 
-        // SEARCH SUGGESTIONS
-        const data = ["Frontend Developer", "Backend Developer", "Mobile App", "Graphic Design", "Logo Maker", "Video Editor", "Python Teacher", "UI/UX Designer"];
-        const searchInput = document.getElementById('searchInput');
-        const suggestionBox = document.getElementById('suggestionBox');
+        // Team Button
+        document.getElementById('teamButton').addEventListener('click', async () => {
+            const { value: role } = await Swal.fire({
+                title: 'Команда іздеу',
+                input: 'text',
+                inputPlaceholder: 'Қандай мамандықта көмек керек?',
+                background: '#1e293b',
+                color: '#ffffff',
+                showCancelButton: true,
+                confirmButtonText: 'Жариялау',
+                cancelButtonText: 'Бас тарту',
+                confirmButtonColor: '#10b981',
+                inputValidator: (value) => {
+                    if (!value) return 'Мамандықты көрсетіңіз';
+                }
+            });
+            if (role) savePost(`Командаға ${role} керек`, "Жобаға қосыл!", 'team');
+        });
 
-        searchInput.addEventListener('input', (e) => {
-            const val = e.target.value.toLowerCase();
-            suggestionBox.innerHTML = '';
-            if (val.length > 0) {
-                const filtered = data.filter(i => i.toLowerCase().includes(val));
-                filtered.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'suggestion-item';
-                    div.innerText = item;
-                    div.onclick = () => { 
-                        searchInput.value = item; 
-                        suggestionBox.style.display = 'none'; 
-                    };
-                    suggestionBox.appendChild(div);
+        // Search Function
+        window.setSearch = (val) => {
+            document.getElementById('mainSearchInput').value = val;
+        };
+
+        // Load Feed
+        function loadFeed() {
+            const q = query(collection(db, "feed"), orderBy("createdAt", "desc"));
+            onSnapshot(q, (snap) => {
+                const container = document.getElementById('feedContainer');
+                if (snap.empty) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h4>Қазірше посттар жоқ</h4>
+                            
+                        </div>
+                    `;
+                    return;
+                }
+                container.innerHTML = '';
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    const card = document.createElement('div');
+                    card.className = `post-card ${data.type === 'team' ? 'team-type' : ''}`;
+                    card.setAttribute('onclick', `openCustomerModal('${escapeHtml(data.author)}', '${escapeHtml(data.title)}', '${escapeHtml(data.desc)}', '${data.type}')`);
+                    card.innerHTML = `
+                        <h4>${escapeHtml(data.title)}</h4>
+                        <p>${escapeHtml(data.desc)}</p>
+                        <div class="post-footer">
+                            <span>${escapeHtml(data.author)}</span>
+                            <span class="post-badge ${data.type === 'team' ? 'team' : ''}">
+                                ${data.type === 'team' ? '👥 КОМАНДА' : '📝 ТАПСЫРЫС'}
+                            </span>
+                        </div>
+                    `;
+                    container.appendChild(card);
                 });
-                suggestionBox.style.display = filtered.length ? 'block' : 'none';
-            } else {
-                suggestionBox.style.display = 'none';
+            });
+        }
+
+        // Security: Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Open Customer Modal
+        window.openCustomerModal = function(author, title, desc, type) {
+            document.getElementById('modalCustomerName').textContent = author;
+            document.getElementById('modalAvatarLetter').textContent = author.charAt(0).toUpperCase();
+            document.getElementById('modalPostTitle').textContent = title;
+            document.getElementById('modalPostDesc').textContent = desc;
+            
+            // Set role based on type
+            const role = type === 'team' ? '👥 Команда жинау' : '📝 Тапсырыс беру';
+            document.getElementById('modalCustomerRole').textContent = role;
+            
+            document.getElementById('customerModal').classList.add('active');
+        };
+
+        // Close Customer Modal
+        window.closeCustomerModal = function(event) {
+            // If clicking on modal background (not on content), close it
+            if (event && event.target.id !== 'customerModal') {
+                return;
+            }
+            document.getElementById('customerModal').classList.remove('active');
+        };
+
+        // Close modal when pressing Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                document.getElementById('customerModal').classList.remove('active');
+            }
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            const result = await Swal.fire({
+                title: 'Шығасызба?',
+                text: 'Сіз өзіңіздің аккаунтыңыздан шығасыз',
+                icon: 'question',
+                background: '#1e293b',
+                color: '#ffffff',
+                showCancelButton: true,
+                confirmButtonText: 'Иә, шығу',
+                cancelButtonText: 'Бас тарту',
+                confirmButtonColor: '#ef4444'
+            });
+            if (result.isConfirmed) {
+                await signOut(auth);
+                window.location.href = "index.html";
             }
         });
     </script>

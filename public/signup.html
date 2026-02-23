@@ -4,90 +4,276 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NexTeen | Тіркелу</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
-        :root { --primary: #4f46e5; --bg: #0f172a; }
+        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+        :root { 
+            --primary: #6366f1; 
+            --primary-hover: #4f46e5;
+            --bg-dark: #0f172a; 
+            --card-glass: rgba(30, 41, 59, 0.7);
+            --input-bg: rgba(15, 23, 42, 0.6);
+            --success: #10b981;
+            --error: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+
         body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0; background: linear-gradient(135deg, #1e293b 0%, var(--primary) 100%);
-            height: 100vh; display: flex; align-items: center; justify-content: center; color: white; overflow: hidden;
+            background-color: var(--bg-dark);
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            overflow: hidden;
+            position: relative;
         }
-        .logo { position: absolute; top: 30px; left: 30px; font-weight: 900; font-size: 24px; letter-spacing: 2px; }
-        .login-card {
-            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); 
-            padding: 40px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 320px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
-         .problem h1
-        {   position: fixed;
-            top: 45px;
-            right: 135px;    
-            font-size: 12px;
-            color: #cbd5e1;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        .contact-link button {
+
+        /* --- Анимированный фон (Blobs) --- */
+        .background-visuals {
             position: absolute;
-            top: 30px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            filter: blur(80px);
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: move 20s infinite alternate ease-in-out;
+        }
+
+        .blob-1 { top: -100px; left: -100px; background: #4f46e5; }
+        .blob-2 { bottom: -150px; right: -50px; background: #7c3aed; animation-delay: -5s; }
+        .blob-3 { top: 20%; right: 20%; background: #2563eb; animation-duration: 25s; opacity: 0.3; }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1) rotate(0deg); }
+            to { transform: translate(100px, 50px) scale(1.1) rotate(360deg); }
+        }
+
+        /* --- Контент --- */
+        .logo { 
+            font-family: "Titan One", sans-serif;
+            font-weight: 100;
+            position: absolute; 
+            top: 30px; 
+            left: 30px; 
+            font-weight: 900; 
+            font-size: 24px; 
+            letter-spacing: 3px;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .contact-link {
+            position: absolute; 
+            top: 30px; 
             right: 30px;
-            background: #ffffff;
-            color: var(--primary);
-            border: none;
-            padding: 13px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
             z-index: 10;
-            font-size: 14px;
         }
+
+        .contact-link button {
+            background: rgba(255, 255, 255, 0.05); 
+            color: white; 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px; 
+            border-radius: 12px; 
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+
         .contact-link button:hover {
-            background: #f1f5f9;
-            transform: scale3d(1.1,1.1,1);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            background: #acb3ba;
+            background: white;
+            color: var(--bg-dark);
         }
-        h1 { margin: 0 0 10px 0; font-size: 28px; }
-        p { color: #cbd5e1; margin-bottom: 30px; font-size: 14px; }
-        .input-group { margin-bottom: 20px; text-align: left; font-size: 16px;}
+
+        .login-card {
+            background: var(--card-glass);
+            backdrop-filter: blur(20px); 
+            padding: 40px; 
+            border-radius: 32px; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 { 
+            font-size: 28px; 
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .subtitle { 
+            color: #94a3b8; 
+            margin-bottom: 30px; 
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .input-group { 
+            margin-bottom: 18px; 
+        }
+
+        .input-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #64748b;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
         input {
-            width: 100%; padding: 14px; margin-top: 5px; border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.2);
-            color: white; box-sizing: border-box; outline: none;font-weight: bold; font-size: 16px;
+            width: 100%; 
+            padding: 14px 16px; 
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            background: var(--input-bg);
+            color: white; 
+            outline: none; 
+            font-size: 15px;
+            transition: 0.3s;
         }
-        input:focus { border-color: white; background: rgba(0, 0, 0, 0.4); }
+
+        input:focus { 
+            border-color: var(--primary); 
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+        }
+
         .signup-btn {
-            width: 100%; padding: 14px; border: none; border-radius: 12px;
-            background: white; color: var(--primary); font-weight: bold;
-            font-size: 16px; cursor: pointer; transition: 0.3s;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
         }
-        .signup-btn:hover { transform: translateY(2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+        .signup-btn:hover:not(:disabled) { 
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .signup-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .login-link {
+            margin-top: 25px; 
+            font-size: 14px;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        .login-link a {
+            color: var(--primary); 
+            font-weight: 700; 
+            text-decoration: none;
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show { display: block; }
+
+        @media (max-width: 480px) {
+            .login-card { padding: 30px 20px; }
+            .logo { left: 50%; transform: translateX(-50%); }
+        }
     </style>
 </head>
 <body>
+
+    <div class="background-visuals">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
     <div class="logo">NEXTEEN</div>
    
-        
-    <a href="https://wa.me/77053950399" class="contact-link">
-        <button type="button">Contact</button>
-    </a>
+    <div class="contact-link">
+        <a href="https://wa.me/77053950399">
+            <button type="button">Contact</button>
+        </a>
+    </div>
     
     <div class="login-card">
-        <h1>SIGN UP.</h1>
-        <p>Create a new account</p>
-        <div class="input-group"><input type="text" id="username" placeholder="Your Name"></div>
-        <div class="input-group"><input type="number" id="age" placeholder="Age"></div>
-        <div class="input-group"><input type="email" id="email" placeholder="Email"></div>
-        <div class="input-group"><input type="password" id="password" placeholder="Password"></div>
-        <button class="signup-btn" id="signupBtn">Sign Up</button>
-        <p style="margin-top: 20px; font-size: 12px;">
-           have an account? <a href="index.html" style="color: rgb(255, 255, 255); font-weight: bold; text-decoration: none;">LOG IN</a>
+        <h1>ТІРКЕЛУ</h1>
+        <p class="subtitle">Жаңа аккаунт құрыңыз</p>
+        
+        <div class="input-group">
+            <label class="input-label">Атыңыз</label>
+            <input type="text" id="username" placeholder="Өз атыңыз">
+            <div class="error-message" id="nameError">Атыңызды енгізіңіз</div>
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Жасыңыз (13-25)</label>
+            <input type="number" id="age" placeholder="Жасыңыз" min="13" max="25">
+            <div class="error-message" id="ageError">Жасыңыз 13-25 аралығында болуы керек</div>
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Email</label>
+            <input type="email" id="email" placeholder="example@email.com">
+            <div class="error-message" id="emailError">Email-ді дұрыс енгізіңіз</div>
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Құпия сөз</label>
+            <input type="password" id="password" placeholder="Мин. 8 таңба, 1 бас әріп, 1 сан">
+            <div class="error-message" id="passwordError">Құпия сөз талапқа сай емес</div>
+        </div>
+
+        <button class="signup-btn" id="signupBtn">Тіркелу</button>
+
+        <p class="login-link">
+            Аккаунтыңыз барма? <a href="index.html">Кіру</a>
         </p>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCmZUGTgPrmXFQbUUO1xXCqeD70P6Sy0Bk",
@@ -100,30 +286,79 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
 
         const signupBtn = document.getElementById('signupBtn');
+        const nameInput = document.getElementById('username');
+        const ageInput = document.getElementById('age');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
 
-        signupBtn.addEventListener('click', async () => {
-            const name = document.getElementById('username').value;
-            const age = document.getElementById('age').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        // Валидация
+        signupBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
 
-            
-            if(!name || !age || !email || !password) return alert("Барлық жолақтарды толтыру міндетті!");
-            if(password.length < 6) return alert("Құпия сөз кемінде 6 таңбадан тұруы керек!");
+            const name = nameInput.value.trim();
+            const age = parseInt(ageInput.value);
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            let hasError = false;
+            const nameError = document.getElementById('nameError');
+            const ageError = document.getElementById('ageError');
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
+
+            [nameError, ageError, emailError, passwordError].forEach(el => el.classList.remove('show'));
+
+            if (!name || name.length < 2) { nameError.classList.add('show'); hasError = true; }
+            if (!age || age < 13 || age > 25) { ageError.classList.add('show'); hasError = true; }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) { emailError.classList.add('show'); hasError = true; }
+            const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (!passwordRegex.test(password)) { passwordError.classList.add('show'); hasError = true; }
+
+            if (hasError) return;
+
+            signupBtn.disabled = true;
+            signupBtn.innerText = "Тіркелуде...";
 
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                
-                
-                await updateProfile(userCredential.user, { displayName: name, age: age });
-                
-                alert("Тіркелу сәтті аяқталды!");
+                const user = userCredential.user;
+                await updateProfile(user, { displayName: name });
+                await setDoc(doc(db, "users", user.uid), {
+                    uid: user.uid,
+                    displayName: name,
+                    email: email,
+                    age: age,
+                    createdAt: new Date(),
+                    projects: 0,
+                    rating: 0,
+                    coins: 0
+                });
+
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Сәтті!',
+                    text: 'Тіркелу аяқталды!',
+                    background: '#1e293b',
+                    color: '#fff',
+                    confirmButtonColor: '#6366f1',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
                 window.location.href = "index.html"; 
             } catch (error) {
-                
-                alert("Қате: " + error.message);
+                signupBtn.disabled = false;
+                signupBtn.innerText = "Тіркелу";
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Қате!',
+                    text: error.message,
+                    background: '#1e293b',
+                    color: '#fff'
+                });
             }
         });
     </script>
